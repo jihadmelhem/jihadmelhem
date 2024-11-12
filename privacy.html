@@ -1,0 +1,89 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Product Page</title>
+    <script src="https://js.stripe.com/v3/"></script>
+    <link rel="stylesheet" href="assets\styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+   <script>
+        function toggleMenu() {
+            const navLinks = document.querySelector('.nav-links');
+            navLinks.classList.toggle('show');
+        }
+    </script>
+</head>
+<body>
+
+<!-- Header -->
+<div class="header">
+    <a href="index.html"><h1>Melhem<span>.</span></h1></a>
+    <div class="hamburger" onclick="toggleMenu()">
+        <div></div>
+        <div></div>
+        <div></div>
+    </div>
+    <div class="nav-links">
+        
+        <a href="aboutus.html">About</a>
+        <a href="product.html">Products</a>
+        <a href="cart.html">cart</a>
+        <a href="contact.html">Contact</a>
+    </div>
+</div>
+
+
+<div class="privacy-policy">
+    <h1>Privacy Policy</h1>
+    <p>Welcome to our Privacy Policy page! Your privacy is critically important to us.</p>
+    <h2>Information We Collect</h2>
+    <p>We collect various types of information for different purposes to provide and improve our service to you.</p>
+    <h2>How We Use Information</h2>
+    <p>Details on how we use the information you provide us and how it helps improve our service.</p>
+    <h2>Sharing and Disclosure</h2>
+    <p>We only share your personal information when necessary, as outlined in this policy.</p>
+    <h2>Security</h2>
+    <p>Your data security is very important to us, and we work to protect it to the best of our ability.</p>
+    <h2>Contact Us</h2>
+    <p>If you have questions regarding this policy, please reach out via our Contact page.</p>
+</div>
+
+
+
+<div class="footer">
+    <!-- Logo and Description -->
+    <div>
+        <h2>Melhem<span>.</span></h2>
+        <p>Be the best version of yourself</p>
+    
+        <div class="social-icons">
+            <a href="https://facebook.com" target="_blank"><i class="fab fa-facebook-f"></i></a>
+            <a href="https://instagram.com" target="_blank"><i class="fab fa-instagram"></i></a>
+            <a href="https://twitter.com" target="_blank"><i class="fab fa-twitter"></i></a>
+            <a href="https://linkedin.com" target="_blank"><i class="fab fa-linkedin-in"></i></a>
+            <a href="https://youtube.com" target="_blank"><i class="fab fa-youtube"></i></a>
+        </div>
+    </div>
+    
+
+    <!-- Links -->
+    <div class="links">
+        <h2>Links</h2>
+        <a href="aboutus.html">About</a>
+        <a href="privacy.html">Privacy</a>
+        <a href="return.html">Return</a>
+        <a href="terms.html">Terms</a>
+    </div>
+
+    <!-- Contact -->
+    <div class="contact">
+        <h2>Contact</h2>
+        <p>my email</p>
+        <p>mel7emstore@gmail.com</p>
+        <p>for business only</p>
+        <p>for support <a href="contact.html">Contact</a></p>
+    </div>
+    
+
+    <script src="assets/script.js"></script>
+</body> </html>

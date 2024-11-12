@@ -1,0 +1,33 @@
+<?php
+// process_shipping.php
+
+// Database connection
+$host = 'localhost'; // or your database host
+$dbname = 'your_database_name'; // replace with your database name
+$username = 'your_username'; // replace with your database username
+$password = 'your_password'; // replace with your database password
+
+try {
+    $conn = new PDO("mysql:host=$host;dbname=$dbname", $username, $password);
+    $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+
+    // Prepare and bind
+    $stmt = $conn->prepare("INSERT INTO shipping_info (name, email, address, city, zip, country, phone) VALUES (:name, :email, :address, :city, :zip, :country, :phone)");
+    
+    // Bind parameters
+    $stmt->bindParam(':name', $_POST['name']);
+    $stmt->bindParam(':email', $_POST['email']);
+    $stmt->bindParam(':address', $_POST['address']);
+    $stmt->bindParam(':city', $_POST['city']);
+    $stmt->bindParam(':zip', $_POST['zip']);
+    $stmt->bindParam(':country', $_POST['country']);
+    $stmt->bindParam(':phone', $_POST['phone']);
+    
+    // Execute the statement
+    $stmt->execute();
+
+    echo "Shipping information saved successfully!";
+} catch (PDOException $e) {
+    echo "Error: " . $e->getMessage();
+}
+?>

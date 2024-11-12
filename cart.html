@@ -1,0 +1,221 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Product Page</title>
+    <script src="https://js.stripe.com/v3/"></script>
+    <link rel="stylesheet" href="assets\styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+   <script>
+        function toggleMenu() {
+            const navLinks = document.querySelector('.nav-links');
+            navLinks.classList.toggle('show');
+        }
+    </script>
+</head>
+<body>
+
+<!-- Header -->
+<div class="header">
+    <a href="index.html"><h1>Melhem<span>.</span></h1></a>
+    <div class="hamburger" onclick="toggleMenu()">
+        <div></div>
+        <div></div>
+        <div></div>
+    </div>
+    <div class="nav-links">
+        
+        <a href="aboutus.html">About</a>
+        <a href="product.html">Products</a>
+        <a href="cart.html">cart</a>
+        <a href="contact.html">Contact</a>
+    </div>
+</div>
+<div class="container">
+    <h1>Shipping Information</h1>
+    <form id="shipping-form" class="shipping-form">
+        <div class="form-group">
+            <label for="name">Full Name</label>
+            <input type="text" id="name" name="name" placeholder="John Doe" required>
+        </div>
+
+        <div class="form-group">
+            <label for="email">Email Address</label>
+            <input type="email" id="email" name="email" placeholder="john@example.com" required>
+        </div>
+
+        <div class="form-group">
+            <label for="address">Address</label>
+            <input type="text" id="address" name="address" placeholder="123 Main St." required>
+        </div>
+
+        <div class="form-group">
+            <label for="city">City</label>
+            <input type="text" id="city" name="city" placeholder="New York" required>
+        </div>
+
+        <div class="form-group">
+            <label for="zip">Zip Code</label>
+            <input type="text" id="zip" name="zip" placeholder="10001" required>
+        </div>
+
+        <div class="form-group">
+            <label for="country">Country</label>
+            <select id="country" name="country" required>
+                <option value="US">United States</option>
+                <option value="CA">Canada</option>
+                <option value="UK">United Kingdom</option>
+                <!-- Add more countries as needed -->
+            </select>
+        </div>
+
+        <div class="form-group">
+            <label for="phone">Phone Number</label>
+            <input type="tel" id="phone" name="phone" placeholder="+1 555 555 5555" required>
+        </div>
+    </form>
+
+    <div class="cart-items" id="cart-items">
+        <h2>Cart Items</h2>
+        <!-- Cart items will be dynamically inserted here -->
+    </div>
+
+    <div class="summary">
+        <h2>Order Summary</h2>
+        <div class="summary-item">
+            <p>Total</p>
+            <strong id="total-price">$0</strong>
+        </div>
+    </div>
+
+    <button class="continue-button" id="continueToPayment">Continue to Payment</button>
+</div>
+<div class="footer">
+    <!-- Logo and Description -->
+    <div>
+        <h2>Melhem<span>.</span></h2>
+        <p>Be the best version of yourself</p>
+    
+        <div class="social-icons">
+            <a href="https://facebook.com" target="_blank"><i class="fab fa-facebook-f"></i></a>
+            <a href="https://instagram.com" target="_blank"><i class="fab fa-instagram"></i></a>
+            <a href="https://twitter.com" target="_blank"><i class="fab fa-twitter"></i></a>
+            <a href="https://linkedin.com" target="_blank"><i class="fab fa-linkedin-in"></i></a>
+            <a href="https://youtube.com" target="_blank"><i class="fab fa-youtube"></i></a>
+        </div>
+    </div>
+    
+
+    <!-- Links -->
+    <div class="links">
+        <h2>Links</h2>
+        <a href="aboutus.html">About</a>
+        <a href="privacy.html">Privacy</a>
+        <a href="return.html">Return</a>
+        <a href="terms.html">Terms</a>
+    </div>
+
+    <!-- Contact -->
+    <div class="contact">
+        <h2>Contact</h2>
+        <p>my email</p>
+        <p>mel7emstore@gmail.com</p>
+        <p>for business only</p>
+        <p>for support <a href="contact.html">Contact</a></p>
+    </div>
+    
+</div>
+<script>
+    // Function to load cart items and display them in the cart section
+    function loadCart() {
+        const storedCart = localStorage.getItem('cart');
+        let total = 0;
+        const cartItemsDiv = document.getElementById('cart-items');
+        cartItemsDiv.innerHTML = '';  // Clear previous items
+
+        if (storedCart) {
+            const cart = JSON.parse(storedCart);
+
+            cart.forEach((item, index) => {
+                // Create cart item elements
+                const cartItemDiv = document.createElement('div');
+                cartItemDiv.classList.add('cart-item');
+                
+                const itemName = document.createElement('p');
+                itemName.innerText = `${item.name}: $${item.price}`;
+                
+                const deleteButton = document.createElement('button');
+                deleteButton.innerText = 'Remove';
+                deleteButton.onclick = function() {
+                    deleteCartItem(index);  // Delete item on button click
+                };
+                
+                cartItemDiv.appendChild(itemName);
+                cartItemDiv.appendChild(deleteButton);
+                
+                cartItemsDiv.appendChild(cartItemDiv);
+
+                // Calculate total price
+                total += item.price;
+            });
+        }
+
+        // Update total price
+        document.getElementById('total-price').innerText = `$${total}`;
+    }
+
+    // Function to delete an item from the cart
+    function deleteCartItem(index) {
+        let cart = JSON.parse(localStorage.getItem('cart'));
+
+        if (cart) {
+            cart.splice(index, 1);  // Remove the item from the cart
+            localStorage.setItem('cart', JSON.stringify(cart));  // Update localStorage
+            loadCart();  // Reload the cart
+        }
+    }
+
+    // Load cart on page load
+    window.onload = function() {
+        loadCart();
+    };
+
+    // Handle "Continue to Payment" button click
+document.getElementById('continueToPayment').addEventListener('click', function(event) {
+    event.preventDefault();
+
+    // Validate form fields
+    const shippingForm = document.getElementById('shipping-form');
+    if (shippingForm.checkValidity()) {
+        // Create a FormData object from the shipping form
+        const formData = new FormData(shippingForm);
+
+        // Send the form data to the server using fetch
+        fetch('process_shipping.php', {  // Update this to the correct PHP file to process shipping
+            method: 'POST',
+            body: formData
+        })
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Network response was not ok');
+            }
+            return response.text(); // Get the response text
+        })
+        .then(data => {
+            console.log(data); // Optional: log server response for debugging
+
+            // After processing, redirect to payment page
+            window.location.href = "payment.php"; // Redirect to payment page
+        })
+        .catch(error => {
+            console.error('Error:', error); // Handle errors here
+            alert("There was an error processing your request. Please try again.");
+        });
+    } else {
+        alert("Please fill in all required fields.");
+    }
+});
+</script>
+
+</body>
+</html>
